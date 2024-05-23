@@ -1,0 +1,104 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|e:\\\u043F\u0440\u043E\u0435\u043A\u0442\u044B\\diploma\\diplomawinforms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|solutionrelative:main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|solutionrelative:main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\messages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|solutionrelative:messages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|solutionrelative:database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\main.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C7066882-01AA-4BD6-BE20-2E539DBBA0D8}|DiplomaWinForms.csproj|solutionrelative:main.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Messages.cs",
+              "DocumentMoniker": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Messages.cs",
+              "RelativeDocumentMoniker": "Messages.cs",
+              "ToolTip": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Messages.cs",
+              "RelativeToolTip": "Messages.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T13:17:00.921Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DataBase.cs",
+              "DocumentMoniker": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\DataBase.cs",
+              "RelativeDocumentMoniker": "DataBase.cs",
+              "ToolTip": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\DataBase.cs",
+              "RelativeToolTip": "DataBase.cs",
+              "ViewState": "AQIAACwAAAAAAAAAAAAwwEIAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T12:40:00.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Main.cs",
+              "RelativeDocumentMoniker": "Main.cs",
+              "ToolTip": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T08:45:06.718Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Main.cs",
+              "DocumentMoniker": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Main.cs",
+              "RelativeDocumentMoniker": "Main.cs",
+              "ToolTip": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Main.cs",
+              "RelativeToolTip": "Main.cs",
+              "ViewState": "AQIAAB0AAAAAAAAAAAAAwDIAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T10:19:38.595Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Main.Designer.cs",
+              "DocumentMoniker": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Main.Designer.cs",
+              "RelativeDocumentMoniker": "Main.Designer.cs",
+              "ToolTip": "E:\\\u041F\u0440\u043E\u0435\u043A\u0442\u044B\\Diploma\\DiplomaWinForms\\Main.Designer.cs",
+              "RelativeToolTip": "Main.Designer.cs",
+              "ViewState": "AQIAAFAAAAAAAAAAAIAwwF4AAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T11:58:27.187Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
