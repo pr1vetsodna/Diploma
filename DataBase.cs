@@ -37,7 +37,7 @@ namespace DiplomaWinForms
                 if (conn.State != ConnectionState.Open)
                     conn.Open();
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 msg.Error(ex.ToString());
             }
@@ -49,7 +49,7 @@ namespace DiplomaWinForms
                 if (conn.State != ConnectionState.Closed)
                     conn.Close();
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
                 msg.Error(ex.ToString());
             }
@@ -95,7 +95,7 @@ namespace DiplomaWinForms
                 CloseConnection();
                 return adapter;
             }
-            catch(Exception ex)
+            catch(SqlException ex)
             {
                 msg.Error(ex.ToString());
                 return null;
@@ -116,8 +116,17 @@ namespace DiplomaWinForms
         public void cmd(string sqlExpression)
         {
             OpenConnection();
-            SqlCommand cmd = new SqlCommand(sqlExpression, GetConnection());
+            try
+            {
+                SqlCommand cmd = new SqlCommand(sqlExpression, GetConnection());
+            }
+            catch (SqlException ex)
+            {
+                msg.Error(ex.ToString());
+            }
             CloseConnection();
+            
+            
         }
     }
 }

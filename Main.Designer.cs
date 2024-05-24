@@ -60,6 +60,7 @@
             this.dataGridViewMain.ReadOnly = true;
             this.dataGridViewMain.Size = new System.Drawing.Size(591, 591);
             this.dataGridViewMain.TabIndex = 1;
+            this.dataGridViewMain.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMain_CellContentClick);
             this.dataGridViewMain.SelectionChanged += new System.EventHandler(this.dataGridViewMain_SelectionChanged);
             // 
             // tableLayoutPanelControl
@@ -199,7 +200,6 @@
             this.tableLayoutPanelArguments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanelArguments.Size = new System.Drawing.Size(222, 200);
             this.tableLayoutPanelArguments.TabIndex = 2;
-            this.tableLayoutPanelArguments.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanelArguments_Paint);
             // 
             // button1
             // 
@@ -219,7 +219,6 @@
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "1111";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // label2
             // 
@@ -230,7 +229,6 @@
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "11112222";
-            this.label2.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // button4
             // 

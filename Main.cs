@@ -105,6 +105,7 @@ namespace DiplomaWinForms
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;
             
+            
             //foreach (List<Control> field in fields)
             //{
             //    foreach (Control control in field)
@@ -135,17 +136,15 @@ namespace DiplomaWinForms
             currentTable = listBoxTables.SelectedItem.ToString();
             tableLayoutPanelArguments.Controls.Clear();
             tableLayoutPanelArguments.RowStyles.Clear();
-            tableLayoutPanelArguments.RowCount = 0;
-            foreach (DataColumn column in db.ds.Tables[currentTable].Columns)
-            {
-                tableLayoutPanelArguments.RowCount++;
+            tableLayoutPanelArguments.RowCount = 1;
+            tableLayoutPanelArguments.RowCount += db.ds.Tables[currentTable].Columns.Count;
+            for (int i = 0; i < tableLayoutPanelArguments.RowCount;  i++)
                 tableLayoutPanelArguments.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            }
-            tableLayoutPanelArguments.RowCount++;
-            tableLayoutPanelArguments.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             tableLayoutPanelArguments.Controls.AddRange(fields[listBoxTables.SelectedIndex].ToArray());
             dataGridViewMain.DataSource = db.ds.Tables[currentTable];
             isChangingTable = false;
+            Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
+                $"Количество полей: {tableLayoutPanelArguments.Controls.Count / 2}");
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -167,7 +166,7 @@ namespace DiplomaWinForms
             query += ")";
             if (msg.Question("Скопировать запрос?", query))
                 Clipboard.SetText(query);
-            //db.cmd(query);
+            db.cmd(query);
             RefreshUI();
 
         }
@@ -184,24 +183,14 @@ namespace DiplomaWinForms
 
         }
 
-        private void tableLayoutPanelArguments_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonUpd_Click(object sender, EventArgs e)
         {
             RefreshUI();
+        }
+
+        private void dataGridViewMain_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
