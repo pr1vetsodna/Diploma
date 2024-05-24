@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace DiplomaWinForms
 {
     public class DataBase
     {
+        public DataSet ds = new DataSet();
+        public DataTable tablesNames = new DataTable();
         Messages msg = new Messages();
         static SqlConnectionStringBuilder build = new SqlConnectionStringBuilder()
         {
@@ -20,9 +23,9 @@ namespace DiplomaWinForms
             Encrypt = false,
         };
 
-        SqlConnection conn = new SqlConnection(build.ConnectionString);
+        public SqlConnection conn = new SqlConnection(build.ConnectionString);
 
-        SqlConnection GetConnection() {
+        public SqlConnection GetConnection() {
             return conn;
         }
 
@@ -50,6 +53,37 @@ namespace DiplomaWinForms
                 msg.Error(ex.ToString());
             }
         }
+
+        public void RefreshDS()
+        {
+            try
+            {
+                tablesNames.Clear();
+                ds.Clear();
+                Adapter("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'").Fill(tablesNames);
+                foreach (DataRow table in tablesNames.Rows)
+                    Adapter($"select * from {table[0].ToString()}").Fill(ds, table[0].ToString());
+            } catch (Exception ex)
+            {
+                msg.Error(ex.ToString());
+            }
+            //db.TablesName().Fill(db.tablesNames);
+            //for (int table = 0; table < db.tablesNames.Rows.Count; table++)
+            //{
+            //    listBoxTables.Items.Add(db.tablesNames.Rows[table][0].ToString());
+            //    db.Adapter($"select * from {db.tablesNames.Rows[table][0]}").Fill(db.ds, db.tablesNames.Rows[table][0].ToString());
+
+            //    List<Control> controls = new List<Control>(); // Инициализируем массив
+            //                                                  //listBoxTables.Items.Add(ds.Tables[table].TableName);
+
+            //    for (int column = 0; column < db.ds.Tables[table].Columns.Count; column++)
+            //    {
+            //        controls.Add(arg.Label(db.ds.Tables[table].Columns[column].ToString()));
+            //        controls.Add(arg.Field(db.ds.Tables[table].Columns[column].ToString(), db.ds.Tables[table].Columns[column].DataType));
+            //    }
+            //    tableControls.Add(controls);
+            //}
+        }
         
         public SqlDataAdapter Adapter(string sqlExpression)
         {
@@ -68,10 +102,6 @@ namespace DiplomaWinForms
             if (reader.HasRows)
                 return reader;
             else return null;
-        }
-        public SqlDataAdapter TablesName()
-        {
-            return Adapter("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'");
         }
     }
 }
