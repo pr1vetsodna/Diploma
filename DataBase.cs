@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace DiplomaWinForms
 {
@@ -17,8 +18,8 @@ namespace DiplomaWinForms
         Messages msg = new Messages();
         static SqlConnectionStringBuilder build = new SqlConnectionStringBuilder()
         {
-            DataSource = "KOMPUTER\\SQLEXPRESS",
-            InitialCatalog = "PhoneBook",
+            DataSource = ConfigurationManager.AppSettings["ServerName"],
+            InitialCatalog = ConfigurationManager.AppSettings["CatalogName"],
             IntegratedSecurity = true,
             Encrypt = false,
         };
