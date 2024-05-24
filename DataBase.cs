@@ -87,10 +87,18 @@ namespace DiplomaWinForms
         
         public SqlDataAdapter Adapter(string sqlExpression)
         {
-            OpenConnection();
-            SqlDataAdapter adapter = new SqlDataAdapter(sqlExpression, conn);
-            CloseConnection();
-            return adapter;
+            try
+            {
+                OpenConnection();
+                SqlDataAdapter adapter = new SqlDataAdapter(sqlExpression, conn);
+                CloseConnection();
+                return adapter;
+            }
+            catch(Exception ex)
+            {
+                msg.Error(ex.ToString());
+                return null;
+            }
         }
 
         public SqlDataReader Reader(string sqlExpression)
@@ -102,6 +110,13 @@ namespace DiplomaWinForms
             if (reader.HasRows)
                 return reader;
             else return null;
+        }
+
+        public void cmd(string sqlExpression)
+        {
+            OpenConnection();
+            SqlCommand cmd = new SqlCommand(sqlExpression, GetConnection());
+            CloseConnection();
         }
     }
 }

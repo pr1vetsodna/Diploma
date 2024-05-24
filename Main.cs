@@ -155,7 +155,19 @@ namespace DiplomaWinForms
                 query = $"{query}{col.ColumnName}, ";
             query = query.Remove(query.Length - 2);
             query += ") values (";
+            foreach (DataColumn column in db.ds.Tables[currentTable].Columns)
+                if (tableLayoutPanelArguments.Controls[column.ColumnName].GetType() != typeof(Label) && column.AutoIncrement)
+                {
+                    if (column.DataType == typeof(string))
+                        query += $"'{tableLayoutPanelArguments.Controls[column.ColumnName].Text}', ";
+                    else
+                        query += $"{tableLayoutPanelArguments.Controls[column.ColumnName].Text}, ";
+                }
+            query = query.Remove(query.Length - 2);
+            query += ")";
             msg.Error(query);
+            Clipboard.SetText(query);
+            db.cmd(query);
             RefreshUI();
 
         }
