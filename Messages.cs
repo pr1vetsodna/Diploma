@@ -14,9 +14,11 @@ namespace DiplomaWinForms
             MessageBox.Show(message, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public bool Question(string message)
+        public bool Question(string question, string message)
         {
-            if (MessageBox.Show(message, "Ожидание ответа", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (question == null)
+                question = "Ожидание ответа";
+            if (MessageBox.Show(message, question, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 return true;
             else
                 return false;

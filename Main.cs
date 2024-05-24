@@ -165,7 +165,7 @@ namespace DiplomaWinForms
                 }
             query = query.Remove(query.Length - 2);
             query += ")";
-            if (msg.Question("Скопировать запрос?\n"+query))
+            if (msg.Question("Скопировать запрос?", query))
                 Clipboard.SetText(query);
             //db.cmd(query);
             RefreshUI();
