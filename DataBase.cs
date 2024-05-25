@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Data;
-using System.Drawing;
-using System.Windows.Forms;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace DiplomaWinForms
 {
-    public class DataBase
+    public static class DataBase
     {
-        public DataSet ds = new DataSet();
-        public DataTable tablesNames = new DataTable();
-        Messages msg = new Messages();
+        public static DataSet ds = new DataSet();
+        public static DataTable tablesNames = new DataTable();
         static SqlConnectionStringBuilder build = new SqlConnectionStringBuilder()
         {
             DataSource = ConfigurationManager.AppSettings["ServerName"],
@@ -23,14 +16,12 @@ namespace DiplomaWinForms
             IntegratedSecurity = true,
             Encrypt = false,
         };
-
-        public SqlConnection conn = new SqlConnection(build.ConnectionString);
-
-        public SqlConnection GetConnection() {
+        static readonly SqlConnection conn = new SqlConnection(build.ConnectionString);
+        public static SqlConnection GetConnection()
+        {
             return conn;
         }
-
-        public void OpenConnection()
+        public static void OpenConnection(SqlConnection conn)
         {
             try
             {
@@ -42,7 +33,7 @@ namespace DiplomaWinForms
                 msg.Error(ex.ToString());
             }
         }
-        public void CloseConnection()
+        public static void CloseConnection()
         {
             try
             {
@@ -55,16 +46,17 @@ namespace DiplomaWinForms
             }
         }
 
-        public void RefreshDS()
+        public static void RefreshDS()
         {
             try
             {
-                tablesNames.Clear();
                 ds.Clear();
+                tablesNames.Clear();
                 Adapter("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'").Fill(tablesNames);
                 foreach (DataRow table in tablesNames.Rows)
                     Adapter($"select * from {table[0].ToString()}").Fill(ds, table[0].ToString());
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 msg.Error(ex.ToString());
             }
@@ -85,26 +77,26 @@ namespace DiplomaWinForms
             //    tableControls.Add(controls);
             //}
         }
-        
-        public SqlDataAdapter Adapter(string sqlExpression)
+
+        public static SqlDataAdapter Adapter(string sqlExpression)
         {
             try
             {
-                OpenConnection();
+                OpenConnection(conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(sqlExpression, conn);
                 CloseConnection();
                 return adapter;
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 msg.Error(ex.ToString());
                 return null;
             }
         }
 
-        public SqlDataReader Reader(string sqlExpression)
+        public static SqlDataReader Reader(string sqlExpression)
         {
-            OpenConnection();
+            OpenConnection(conn);
             SqlCommand cmd = new SqlCommand(sqlExpression, conn);
             CloseConnection();
             SqlDataReader reader = cmd.ExecuteReader();
@@ -113,9 +105,9 @@ namespace DiplomaWinForms
             else return null;
         }
 
-        public void cmd(string sqlExpression)
+        public static void cmd(string sqlExpression)
         {
-            OpenConnection();
+            OpenConnection(conn);
             try
             {
                 SqlCommand cmd = new SqlCommand(sqlExpression, GetConnection());
@@ -125,8 +117,8 @@ namespace DiplomaWinForms
                 msg.Error(ex.ToString());
             }
             CloseConnection();
-            
-            
+
+
         }
     }
 }
