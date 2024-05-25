@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Reflection.Emit;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,61 +26,37 @@ namespace DiplomaWinForms
             InitializeComponent();
         }
 
-        class arguments
+        public class Argument
         {
-            public Control Label(string ArgName)
+            public string Name { get; set; }
+            public Type Type { get; set; }
+            public System.Windows.Forms.Label CreateLabel()
             {
-                Label label = new Label();
+                System.Windows.Forms.Label label = new System.Windows.Forms.Label();
+                label.Name = "label" + Name;
+                label.Text = Name;
                 label.AutoSize = true;
                 label.Anchor = AnchorStyles.Right;
-                if (ArgName != null)
-                    label.Text = ArgName;
-                else
-                    label.Text = "null";
                 return label;
             }
-            public Control Field(string ArgName, Type type)
+            public Control CreateField()
             {
-
-                if (type == typeof(DateTime))
-                {
-                    DateTimePicker dtp = new DateTimePicker();
-                    dtp.Dock = DockStyle.Fill;
-                    dtp.Name = ArgName;
-                    return dtp;
-                }
-                else if (type == typeof(int) || type == typeof(Int64))
-                {
-                    NumericUpDown numeric = new NumericUpDown();
-                    numeric.Dock = DockStyle.Fill;
-                    numeric.Name = ArgName;
-                    numeric.Maximum = Int64.MaxValue;
-                    return numeric;
-                }
+                Control control = null;
+                if (Type == typeof(DateTime))
+                    control = new DateTimePicker();
+                else if (Type == typeof(int) || Type == typeof(Int64))
+                    control = new NumericUpDown();
                 else
-                {
-                    TextBox textBox = new TextBox();
-                    textBox.Dock = DockStyle.Fill;
-                    textBox.Name = ArgName;
-                    return textBox;
-                }
+                    control = new TextBox();
+                control.Name = "control" + Name;
+                control.Dock = DockStyle.Fill;
+                return control;
             }
-            //public Control Add(string ArgName, Type type)
-            //{
-            //    TableLayoutPanel tlp = new TableLayoutPanel();
-            //    tlp.ColumnCount = 2;
-            //    tlp.RowCount = 1;
-            //    tlp.Dock = DockStyle.Top;
-            //    tlp.AutoSize = true;
-            //    tlp.Controls.Add(Label(ArgName));
-            //    tlp.Controls.Add(Field(ArgName, type));
-            //    return tlp;
-            //}
         }
+
 
         void RefreshUI()
         {
-            arguments arg = new arguments();
             listBoxTables.Items.Clear();
             db.RefreshDS();
             int maxWidthLabel = 0, maxWidthField = 0;
@@ -89,8 +66,13 @@ namespace DiplomaWinForms
                 List<Control> field = new List<Control>();
                 for (int column = 0; column < db.ds.Tables[table].Columns.Count; column++)
                 {
-                    Label label = (Label)arg.Label(db.ds.Tables[table].Columns[column].ToString());
-                    Control control = arg.Field(db.ds.Tables[table].Columns[column].ToString(), db.ds.Tables[table].Columns[column].DataType);
+                    Argument argument = new Argument
+                    {
+                        Name = db.ds.Tables[table].Columns[column].ToString(),
+                        Type = db.ds.Tables[table].Columns[column].DataType
+                    };
+                    System.Windows.Forms.Label label = argument.CreateLabel();
+                    Control control = argument.CreateField();
                     if (label.Width > maxWidthLabel)
                         maxWidthLabel = label.Width;
                     if (control.Width > maxWidthField)
@@ -104,8 +86,8 @@ namespace DiplomaWinForms
             TableLayoutPanelLeft.Width = maxWidthLabel + maxWidthField + tableLayoutPanelArguments.Margin.Right;
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;
-            
-            
+
+
             //foreach (List<Control> field in fields)
             //{
             //    foreach (Control control in field)
@@ -119,7 +101,7 @@ namespace DiplomaWinForms
             //                maxWidthField = control.Width;
             //    }
             //}
-            
+
 
         }
 
@@ -138,7 +120,7 @@ namespace DiplomaWinForms
             tableLayoutPanelArguments.RowStyles.Clear();
             tableLayoutPanelArguments.RowCount = 1;
             tableLayoutPanelArguments.RowCount += db.ds.Tables[currentTable].Columns.Count;
-            for (int i = 0; i < tableLayoutPanelArguments.RowCount;  i++)
+            for (int i = 0; i < tableLayoutPanelArguments.RowCount; i++)
                 tableLayoutPanelArguments.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             tableLayoutPanelArguments.Controls.AddRange(fields[listBoxTables.SelectedIndex].ToArray());
             dataGridViewMain.DataSource = db.ds.Tables[currentTable];
@@ -155,7 +137,7 @@ namespace DiplomaWinForms
             query = query.Remove(query.Length - 2);
             query += ") values (";
             foreach (DataColumn column in db.ds.Tables[currentTable].Columns)
-                if (tableLayoutPanelArguments.Controls[column.ColumnName].GetType() != typeof(Label) && column.AutoIncrement)
+                if (tableLayoutPanelArguments.Controls[column.ColumnName].GetType() != typeof(System.Windows.Forms.Label))
                 {
                     if (column.DataType == typeof(string))
                         query += $"'{tableLayoutPanelArguments.Controls[column.ColumnName].Text}', ";
