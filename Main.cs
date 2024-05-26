@@ -64,7 +64,6 @@ namespace DiplomaWinForms
 
         void RefreshUI()
         {
-
             listBoxTables.Items.Clear();
             DataBase.RefreshDS();
             pages.Clear();
@@ -138,7 +137,6 @@ namespace DiplomaWinForms
             query += ")";
             if (msg.Question("Скопировать запрос?", query))
                 Clipboard.SetText(query);
-            DataBase.cmd(query);
             RefreshUI();
 
         }
