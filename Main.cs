@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Label = System.Windows.Forms.Label;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace DiplomaWinForms
 {
@@ -16,8 +19,7 @@ namespace DiplomaWinForms
             InitializeComponent();
         }
 
-        private List<List<List<Control>>> pages = new List<List<List<Control>>>();
-
+        static public List<List<List<Control>>> pages = new List<List<List<Control>>>();
         class Row
         {
             public List<Control> Add(string Name, Type Type)
@@ -25,7 +27,7 @@ namespace DiplomaWinForms
                 List<Control> list = new List<Control>
                 {
                     CreateLabel(Name),
-                    CreateControl(Name, Type)
+                    CreateField(Name, Type)
                 };
                 return list;
             }
@@ -42,7 +44,7 @@ namespace DiplomaWinForms
                 return label;
             }
 
-            static Control CreateControl(string Name, Type Type)
+            static Control CreateField(string Name, Type Type)
             {
                 Control control = new Control();
                 if (Type == typeof(DateTime))
@@ -62,18 +64,50 @@ namespace DiplomaWinForms
             }
         }
 
+        static class CurrentPage
+        {
+            public static List<List<Control>> page;
+
+            public static class Get
+            {
+                public static string Values()
+                {
+                    string values = null;
+                    for (int row = 0; row < page.Count; row++)
+                    {
+                        if (page[row][1].Text.GetType() == typeof(string))
+                            values += $"`{page[row][1].Text}`";
+                        else
+                            values += page[row][1].Text;
+                        values += ", ";
+                    }
+                    values.Remove(values.Length - 2);
+                    return values;
+                }
+                public static string Arguments()
+                {
+                    string arguments = null;
+                    for (int row = 0; row < page.Count; row++)
+                        arguments += page[row][0].Text + ", ";
+                    arguments.Remove(arguments.Length - 2);
+                    return arguments;
+                }
+            }
+
+        }
+
+
         void RefreshUI()
         {
-            listBoxTables.Items.Clear();
             DataBase.RefreshDS();
+            listBoxTables.Items.Clear();
             pages.Clear();
             int maxWidthLabel = 0, maxWidthField = 0;
-
-            for (int table = 0; table < DataBase.tablesNames.Rows.Count; table++)
+            foreach (DataTable table in DataBase.ds.Tables)
             {
-                listBoxTables.Items.Add(DataBase.tablesNames.Rows[table][0].ToString());
+                listBoxTables.Items.Add(table.TableName);
                 List<List<Control>> rows = new List<List<Control>>();
-                foreach (DataColumn column in DataBase.ds.Tables[table].Columns)
+                foreach (DataColumn column in DataBase.ds.Tables[table.TableName].Columns)
                 {
                     Row row = new Row();
                     rows.Add(row.Add(column.ColumnName, column.DataType));
@@ -105,7 +139,6 @@ namespace DiplomaWinForms
             currentTable = listBoxTables.SelectedItem.ToString();
             tableLayoutPanelArguments.Controls.Clear();
             tableLayoutPanelArguments.RowStyles.Clear();
-
             tableLayoutPanelArguments.RowCount = 1;
             tableLayoutPanelArguments.RowCount += DataBase.ds.Tables[currentTable].Columns.Count;
             for (int i = 0; i < tableLayoutPanelArguments.RowCount; i++)

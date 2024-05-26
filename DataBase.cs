@@ -87,5 +87,22 @@ namespace DiplomaWinForms
         {
             return new SqlCommand(sqlExpression, conn);
         }
+
+        class Control
+        {
+            static void Insert(DataTable Table, string Arguments, string Values)
+            {
+                OpenConnection();
+                try
+                {
+                    Cmd($"INSERT INTO {Table.TableName} ({Arguments}) values ({Values})").ExecuteNonQuery();
+                }
+                catch(Exception ex)
+                {
+                    msg.Error("Не удалось добавить данные!\n\n" + ex.Message);
+                }
+                CloseConnection();
+            }
+        }
     }
 }
