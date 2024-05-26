@@ -41,12 +41,7 @@ namespace DiplomaWinForms
                         label.Text = Name;
                     else
                         label.Text = "null";
-                    Control field = new Control()
-                    {
-                        Name = "control" + Name,
-                        Dock = DockStyle.Fill,
-                        Width = 100,
-                    };
+                    Control field = new Control();
                     if (Type == typeof(DateTime))
                         field = new DateTimePicker();
                     else if (Type == typeof(int) || Type == typeof(Int64))
@@ -56,6 +51,8 @@ namespace DiplomaWinForms
                         };
                     else
                         field = new TextBox();
+                    field.Name = "control" + Name;
+                    field.Dock = DockStyle.Fill;
                     Controls.Add(label);
                     Controls.Add(field);
                 }
@@ -90,7 +87,7 @@ namespace DiplomaWinForms
             DataBase.RefreshDS();
             listBoxTables.Items.Clear();
             Pages.Clear();
-            int maxWidthLabel = 0, maxWidthField = 0;
+            int maxWidthLabel = 0, maxWidthField = 0, maxMarginField = 0;
             foreach (DataTable table in DataBase.ds.Tables)
             {
                 listBoxTables.Items.Add(table.TableName);
@@ -109,12 +106,14 @@ namespace DiplomaWinForms
                             maxWidthLabel = row.Controls[0].Width;
                         if (row.Controls[1].Width > maxWidthField)
                             maxWidthField = row.Controls[1].Width;
+                        if (row.Controls[1].Margin.Right > maxMarginField)
+                            maxMarginField = row.Controls[1].Margin.Right;
                     }
                     page.Rows.Add(row);
                 }
                 Pages.Add(page);
             }
-            //TableLayoutPanelLeft.Width = maxWidthField + maxWidthLabel;
+            TableLayoutPanelLeft.Width = maxWidthField + maxWidthLabel + maxMarginField;
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;
         }
@@ -128,20 +127,18 @@ namespace DiplomaWinForms
 
         private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //isChangingTable = true;
-            //currentTable = listBoxTables.SelectedItem.ToString();
-            //tableLayoutPanelArguments.Controls.Clear();
-            //tableLayoutPanelArguments.RowStyles.Clear();
-            //tableLayoutPanelArguments.RowCount = 1;
-            //tableLayoutPanelArguments.RowCount += DataBase.ds.Tables[currentTable].Columns.Count;
-            //for (int i = 0; i < tableLayoutPanelArguments.RowCount; i++)
-            //    tableLayoutPanelArguments.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            //for (int i = 0; i < DataBase.ds.Tables[currentTable].Columns.Count; i++)
-            //    tableLayoutPanelArguments.Controls.AddRange(pages[listBoxTables.SelectedIndex][i].ToArray());
-            //dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
-            //isChangingTable = false;
-            //Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
-            //    $"Количество полей: {tableLayoutPanelArguments.Controls.Count / 2}");
+            isChangingTable = true;
+            currentTable = listBoxTables.SelectedItem.ToString();
+            tableLayoutPanelArguments.Controls.Clear();
+            tableLayoutPanelArguments.RowStyles.Clear();
+            tableLayoutPanelArguments.RowCount = 1;
+            tableLayoutPanelArguments.RowCount += DataBase.ds.Tables[currentTable].Columns.Count;
+                for (int row = 0; row < Pages[listBoxTables.SelectedIndex].Rows.Count; row++)
+                    tableLayoutPanelArguments.Controls.AddRange(Pages[listBoxTables.SelectedIndex].Rows[row].Controls.ToArray());
+            dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
+            isChangingTable = false;
+            Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
+                $"Количество полей: {tableLayoutPanelArguments.Controls.Count / 2}");
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
