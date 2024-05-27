@@ -150,7 +150,7 @@ namespace DiplomaWinForms
 
         private void buttonMod_Click(object sender, EventArgs e)
         {
-
+            DataBase.Control.Update(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].GetArguments(), Pages[listBoxTables.SelectedIndex].GetValues());
         }
 
         private void buttonUpd_Click(object sender, EventArgs e)

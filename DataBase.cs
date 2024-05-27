@@ -65,7 +65,7 @@ namespace DiplomaWinForms
             }
             catch (Exception ex)
             {
-                msg.Error(ex.ToString());
+                msg.Error("Ошибка при обновлении базы данных!\n\n"+ex.ToString());
             }
         }
 
@@ -94,31 +94,42 @@ namespace DiplomaWinForms
         {
             public static void Insert(DataTable Table, List<string> Arguments, List<string> Values)
             {
+                string queryArg = null, queryVal = null;
+                foreach (string arg in Arguments)
+                    queryArg += arg + ", ";
+                foreach (string val in Values)
+                    queryVal += val + ", ";
+                queryArg = queryArg.Remove(queryArg.Length - 2);
+                queryVal = queryVal.Remove(queryVal.Length - 2);
                 OpenConnection();
                 try
                 {
-                    string queryArg = null, queryVal = null;
-                    foreach (string arg in Arguments)
-                        queryArg += arg + ", ";
-                    foreach (string val in Values)
-                        queryVal += val + ", ";
-                    Cmd($"INSERT INTO {Table.TableName} ({queryArg.Remove(queryArg.Length -2)}) values ({queryVal.Remove(queryVal.Length-2)})").ExecuteNonQuery();
-                    RefreshDS();
+                    Cmd($"INSERT INTO {Table.TableName} ({queryArg}) values ({queryVal})").ExecuteNonQuery();
                 }
                 catch(Exception ex)
                 {
                     msg.Error("Не удалось добавить данные!\n\n" + ex.Message);
                 }
                 CloseConnection();
+                RefreshDS();
             }
             public static void Update(DataTable Table, List<string> Arguments, List<string> Values)
             {
-                //OpenConnection();
-                //try
-                //{
-
-                //    Cmd($"UPDATE {Table.TableName}");
-                //}
+                string query = null;
+                for (int i = 0; i < Arguments.Count; i++)
+                    query += $"{Arguments[i]} = {Values[i]}, ";
+                query = query.Remove(query.Length - 2);
+                OpenConnection();
+                try
+                {
+                    Cmd($"UPDATE {Table.TableName} SET {query}").ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    msg.Error("Не удалось обновить данные!\n\n" + ex.Message);
+                }
+                CloseConnection();
+                RefreshDS();
             }
 
         }
