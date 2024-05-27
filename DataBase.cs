@@ -32,7 +32,7 @@ namespace DiplomaWinForms
             }
             catch (SqlException ex)
             {
-                msg.Error(ex.ToString());
+                msg.Error("Не удалось подключиться к базе данных!\n\n"+ex.ToString());
             }
         }
         public static void CloseConnection()
@@ -44,7 +44,7 @@ namespace DiplomaWinForms
             }
             catch (SqlException ex)
             {
-                msg.Error(ex.ToString());
+                msg.Error("Не удалось закрыть соединение с базой данных!\n\n"+ex.ToString());
             }
         }
 
