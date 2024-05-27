@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Label = System.Windows.Forms.Label;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace DiplomaWinForms
 {
@@ -16,79 +20,100 @@ namespace DiplomaWinForms
             InitializeComponent();
         }
 
-        private List<List<List<Control>>> pages = new List<List<List<Control>>>();
-
-        class Row
+        static public List<Page> Pages = new List<Page>();
+        public class Page
         {
-            public List<Control> Add(string Name, Type Type)
+            public List<Row> Rows = new List<Row>();
+            public class Row
             {
-                List<Control> list = new List<Control>
+                public string Name;
+                public Type Type;
+                public List<Control> Controls = new List<Control>();
+                public void Add()
                 {
-                    CreateLabel(Name),
-                    CreateControl(Name, Type)
-                };
-                return list;
-            }
-            static Label CreateLabel(string Name)
-            {
-                Label label = new Label();
-                label.Name = "label" + Name;
-                label.AutoSize = true;
-                label.Anchor = AnchorStyles.Right;
-                if (Name != null)
-                    label.Text = Name;
-                else
-                    label.Text = "null";
-                return label;
-            }
-
-            static Control CreateControl(string Name, Type Type)
-            {
-                Control control = new Control();
-                if (Type == typeof(DateTime))
-                    control = new DateTimePicker();
-                else if (Type == typeof(int) || Type == typeof(Int64))
-                {
-                    control = new NumericUpDown();
-                    if (control is NumericUpDown numeric)
-                        numeric.Maximum = Int64.MaxValue;
+                    Label label = new Label()
+                    {
+                        Name = "label" + Name,
+                        AutoSize = true,
+                        Anchor = AnchorStyles.Right
+                    };
+                    if (Name != null)
+                        label.Text = Name;
+                    else
+                        label.Text = "null";
+                    Control field = new Control();
+                    if (Type == typeof(DateTime))
+                        field = new DateTimePicker();
+                    else if (Type == typeof(int) || Type == typeof(Int64))
+                        field = new NumericUpDown()
+                        {
+                            Maximum = Int64.MaxValue
+                        };
+                    else
+                        field = new TextBox();
+                    field.Name = "control" + Name;
+                    field.Dock = DockStyle.Fill;
+                    Controls.Add(label);
+                    Controls.Add(field);
                 }
-                else
-                    control = new TextBox();
-                control.Name = "control" + Name;
-                control.Dock = DockStyle.Fill;
-                control.Width = 100;
-                return control;
+            }
+            public string GetValues()
+            {
+                string values = null;
+                for (int row = 0; row < Rows.Count; row++)
+                {
+                    if (Rows[row].Controls[1].GetType() == typeof(string))
+                        values += $"`{Rows[row].Controls[1].Text}`";
+                    else
+                        values += Rows[row].Controls[1].Text;
+                    values += ", ";
+                }
+                values.Remove(values.Length - 2);
+                return values;
+            }
+            public string GetArguments()
+            {
+                string arguments = null;
+                for (int row = 0; row < Rows.Count; row++)
+                    arguments += Rows[row].Controls[0].Text + ", ";
+                arguments.Remove(arguments.Length - 2);
+                return arguments;
             }
         }
 
+
         void RefreshUI()
         {
-
-            listBoxTables.Items.Clear();
             DataBase.RefreshDS();
-            pages.Clear();
-            int maxWidthLabel = 0, maxWidthField = 0;
-
-            for (int table = 0; table < DataBase.tablesNames.Rows.Count; table++)
+            listBoxTables.Items.Clear();
+            Pages.Clear();
+            int maxWidthLabel = 0, maxWidthField = 0, maxMarginField = 0;
+            foreach (DataTable table in DataBase.ds.Tables)
             {
-                listBoxTables.Items.Add(DataBase.tablesNames.Rows[table][0].ToString());
-                List<List<Control>> rows = new List<List<Control>>();
-                foreach (DataColumn column in DataBase.ds.Tables[table].Columns)
+                listBoxTables.Items.Add(table.TableName);
+                Page page = new Page();
+                foreach (DataColumn column in DataBase.ds.Tables[table.TableName].Columns)
                 {
-                    Row row = new Row();
-                    rows.Add(row.Add(column.ColumnName, column.DataType));
-                    if (rows.Count > 0)
+                    Page.Row row = new Page.Row()
                     {
-                        if (rows[rows.Count - 1][0].Width > maxWidthLabel)
-                            maxWidthLabel = rows[rows.Count - 1][0].Width;
-                        if (rows[rows.Count - 1][1].Width > maxWidthField)
-                            maxWidthField = rows[rows.Count - 1][1].Width;
+                        Name = column.ColumnName,
+                        Type = column.DataType
+                    };
+                    row.Add();
+                    if (row.Controls.Count > 0)
+                    {
+                        if (row.Controls[0].Width > maxWidthLabel)
+                            maxWidthLabel = row.Controls[0].Width;
+                        if (row.Controls[1].Width > maxWidthField)
+                            maxWidthField = row.Controls[1].Width;
+                        if (row.Controls[1].Margin.Right > maxMarginField)
+                            maxMarginField = row.Controls[1].Margin.Right;
                     }
+                    page.Rows.Add(row);
                 }
-                pages.Add(rows);
+                Pages.Add(page);
             }
-            //TableLayoutPanelLeft.Width = maxWidthField + maxWidthLabel;
+            TableLayoutPanelLeft.Width = maxWidthField + maxWidthLabel + maxMarginField;
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;
         }
@@ -106,13 +131,10 @@ namespace DiplomaWinForms
             currentTable = listBoxTables.SelectedItem.ToString();
             tableLayoutPanelArguments.Controls.Clear();
             tableLayoutPanelArguments.RowStyles.Clear();
-
             tableLayoutPanelArguments.RowCount = 1;
             tableLayoutPanelArguments.RowCount += DataBase.ds.Tables[currentTable].Columns.Count;
-            for (int i = 0; i < tableLayoutPanelArguments.RowCount; i++)
-                tableLayoutPanelArguments.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            for (int i = 0; i < DataBase.ds.Tables[currentTable].Columns.Count; i++)
-                tableLayoutPanelArguments.Controls.AddRange(pages[listBoxTables.SelectedIndex][i].ToArray());
+                for (int row = 0; row < Pages[listBoxTables.SelectedIndex].Rows.Count; row++)
+                    tableLayoutPanelArguments.Controls.AddRange(Pages[listBoxTables.SelectedIndex].Rows[row].Controls.ToArray());
             dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
             isChangingTable = false;
             Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
@@ -138,7 +160,6 @@ namespace DiplomaWinForms
             query += ")";
             if (msg.Question("Скопировать запрос?", query))
                 Clipboard.SetText(query);
-            DataBase.cmd(query);
             RefreshUI();
 
         }

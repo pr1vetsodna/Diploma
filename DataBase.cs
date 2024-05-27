@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,6 +14,7 @@ namespace DiplomaWinForms
         {
             DataSource = ConfigurationManager.AppSettings["ServerName"],
             InitialCatalog = ConfigurationManager.AppSettings["CatalogName"],
+            MultipleActiveResultSets = true,
             IntegratedSecurity = true,
             Encrypt = false,
         };
@@ -21,7 +23,7 @@ namespace DiplomaWinForms
         {
             return conn;
         }
-        public static void OpenConnection(SqlConnection conn)
+        public static void OpenConnection()
         {
             try
             {
@@ -48,41 +50,30 @@ namespace DiplomaWinForms
 
         public static void RefreshDS()
         {
+            ds.Reset();
+            OpenConnection();
             try
             {
-                ds.Clear();
-                tablesNames.Clear();
-                Adapter("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'").Fill(tablesNames);
-                foreach (DataRow table in tablesNames.Rows)
-                    Adapter($"select * from {table[0].ToString()}").Fill(ds, table[0].ToString());
+                SqlDataReader reader = Cmd("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'").ExecuteReader();
+                while (reader.Read())
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter($"select * from {reader.GetString(0)}", conn);
+                    adapter.Fill(ds, reader.GetString(0));
+                }
+                reader.Close();
+
             }
             catch (Exception ex)
             {
                 msg.Error(ex.ToString());
             }
-            //db.TablesName().Fill(db.tablesNames);
-            //for (int table = 0; table < db.tablesNames.Rows.Count; table++)
-            //{
-            //    listBoxTables.Items.Add(db.tablesNames.Rows[table][0].ToString());
-            //    db.Adapter($"select * from {db.tablesNames.Rows[table][0]}").Fill(db.ds, db.tablesNames.Rows[table][0].ToString());
-
-            //    List<Control> controls = new List<Control>(); // Инициализируем массив
-            //                                                  //listBoxTables.Items.Add(ds.Tables[table].TableName);
-
-            //    for (int column = 0; column < db.ds.Tables[table].Columns.Count; column++)
-            //    {
-            //        controls.Add(arg.Label(db.ds.Tables[table].Columns[column].ToString()));
-            //        controls.Add(arg.Field(db.ds.Tables[table].Columns[column].ToString(), db.ds.Tables[table].Columns[column].DataType));
-            //    }
-            //    tableControls.Add(controls);
-            //}
         }
 
         public static SqlDataAdapter Adapter(string sqlExpression)
         {
             try
             {
-                OpenConnection(conn);
+                OpenConnection();
                 SqlDataAdapter adapter = new SqlDataAdapter(sqlExpression, conn);
                 CloseConnection();
                 return adapter;
@@ -94,31 +85,26 @@ namespace DiplomaWinForms
             }
         }
 
-        public static SqlDataReader Reader(string sqlExpression)
+        public static SqlCommand Cmd(string sqlExpression)
         {
-            OpenConnection(conn);
-            SqlCommand cmd = new SqlCommand(sqlExpression, conn);
-            CloseConnection();
-            SqlDataReader reader = cmd.ExecuteReader();
-            if (reader.HasRows)
-                return reader;
-            else return null;
+            return new SqlCommand(sqlExpression, conn);
         }
 
-        public static void cmd(string sqlExpression)
+        class Control
         {
-            OpenConnection(conn);
-            try
+            static void Insert(DataTable Table, string Arguments, string Values)
             {
-                SqlCommand cmd = new SqlCommand(sqlExpression, GetConnection());
+                OpenConnection();
+                try
+                {
+                    Cmd($"INSERT INTO {Table.TableName} ({Arguments}) values ({Values})").ExecuteNonQuery();
+                }
+                catch(Exception ex)
+                {
+                    msg.Error("Не удалось добавить данные!\n\n" + ex.Message);
+                }
+                CloseConnection();
             }
-            catch (SqlException ex)
-            {
-                msg.Error(ex.ToString());
-            }
-            CloseConnection();
-
-
         }
     }
 }
