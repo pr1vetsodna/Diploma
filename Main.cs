@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MetroFramework.Controls;
+using MetroFramework.Forms;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Security.Cryptography.X509Certificates;
@@ -10,7 +12,7 @@ using TextBox = System.Windows.Forms.TextBox;
 
 namespace DiplomaWinForms
 {
-    public partial class Main : Form
+    public partial class Main : MetroForm
     {
         bool isChangingTable;
         public Main()
@@ -31,7 +33,7 @@ namespace DiplomaWinForms
                 public List<Control> Controls = new List<Control>();
                 public void Add()
                 {
-                    Label label = new Label()
+                    MetroLabel label = new MetroLabel()
                     {
                         Name = "label" + Name,
                         AutoSize = true,
@@ -41,18 +43,18 @@ namespace DiplomaWinForms
                         label.Text = Name;
                     else
                         label.Text = "НЕИЗВЕСТНО";
-                    Control field = new Control();
+                    Control field = new MetroUserControl();
                     if (Type == typeof(DateTime))
-                        field = new DateTimePicker();
+                        field = new MetroDateTime();
                     else if (Type == typeof(int) || Type == typeof(Int64))
                         field = new NumericUpDown()
                         {
                             Maximum = Int64.MaxValue
                         };
                     else
-                        field = new TextBox();
+                        field = new MetroTextBox();
                     field.Name = "control" + Name;
-                    field.Dock = DockStyle.Fill;
+                    field.Width = 200;
                     Controls.Add(label);
                     Controls.Add(field);
                 }
@@ -68,7 +70,7 @@ namespace DiplomaWinForms
                         values += Rows[row].Controls[1].Text;
                     values += ", ";
                 }
-                
+
                 return values.Remove(values.Length - 2);
             }
             public string GetArguments()
@@ -106,8 +108,8 @@ namespace DiplomaWinForms
                             maxWidthLabel = row.Controls[0].Width;
                         if (row.Controls[1].Width > maxWidthField)
                             maxWidthField = row.Controls[1].Width;
-                        if (row.Controls[1].Margin.Right > maxMarginField)
-                            maxMarginField = row.Controls[1].Margin.Right;
+                        if (row.Controls[1].Margin.All > maxMarginField)
+                            maxMarginField = row.Controls[1].Margin.All;
                     }
                     page.Rows.Add(row);
                 }
@@ -122,8 +124,13 @@ namespace DiplomaWinForms
         {
             RefreshUI();
         }
-
-
+        private void dataGridViewMain_SelectionChanged(object sender, EventArgs e)
+        {
+            if (!isChangingTable && dataGridViewMain.CurrentRow != null)
+                foreach (DataColumn col in DataBase.ds.Tables[currentTable].Columns)
+                    if (dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value != DBNull.Value)
+                        tableLayoutPanelArguments.Controls["control" + col.ColumnName].Text = dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value.ToString();
+        }
 
         private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -133,27 +140,19 @@ namespace DiplomaWinForms
             tableLayoutPanelArguments.RowStyles.Clear();
             tableLayoutPanelArguments.RowCount = 1;
             tableLayoutPanelArguments.RowCount += DataBase.ds.Tables[currentTable].Columns.Count;
-                for (int row = 0; row < Pages[listBoxTables.SelectedIndex].Rows.Count; row++)
-                    tableLayoutPanelArguments.Controls.AddRange(Pages[listBoxTables.SelectedIndex].Rows[row].Controls.ToArray());
+            for (int row = 0; row < Pages[listBoxTables.SelectedIndex].Rows.Count; row++)
+                tableLayoutPanelArguments.Controls.AddRange(Pages[listBoxTables.SelectedIndex].Rows[row].Controls.ToArray());
             dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
             isChangingTable = false;
             Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
                 $"Количество полей: {tableLayoutPanelArguments.Controls.Count / 2}");
         }
-
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             DataBase.Control.Insert(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].GetArguments(), Pages[listBoxTables.SelectedIndex].GetValues());
         }
-        private void dataGridViewMain_SelectionChanged(object sender, EventArgs e)
-        {
-            if (!isChangingTable && dataGridViewMain.CurrentRow != null)
-                foreach (DataColumn col in DataBase.ds.Tables[currentTable].Columns)
-                    if (dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value != DBNull.Value)
-                        tableLayoutPanelArguments.Controls["control" + col.ColumnName].Text = dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value.ToString();
-        }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void buttonMod_Click(object sender, EventArgs e)
         {
 
         }
@@ -163,7 +162,12 @@ namespace DiplomaWinForms
             RefreshUI();
         }
 
-        private void dataGridViewMain_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void tableLayoutPanelArguments_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void textBoxSearch_Click(object sender, EventArgs e)
         {
 
         }
