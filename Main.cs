@@ -62,22 +62,21 @@ namespace DiplomaWinForms
             public string GetValues()
             {
                 string values = null;
-                for (int row = 0; row < Rows.Count; row++)
+                foreach (Row row in Rows)
                 {
-                    if (Rows[row].Type == typeof(string))
-                        values += $"'{Rows[row].Controls[1].Text}'";
+                    if (row.Type == typeof(string))
+                        values += $"'{row.Controls[1].Text}'";
                     else
-                        values += Rows[row].Controls[1].Text;
+                        values += row.Controls[1].Text;
                     values += ", ";
                 }
-
                 return values.Remove(values.Length - 2);
             }
             public string GetArguments()
             {
                 string arguments = null;
-                for (int row = 0; row < Rows.Count; row++)
-                    arguments += Rows[row].Controls[0].Text + ", ";
+                foreach (Row row in Rows)
+                    arguments += row.Controls[0].Text + ", ";
                 return arguments.Remove(arguments.Length - 2);
             }
         }
