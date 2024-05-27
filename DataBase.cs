@@ -90,14 +90,15 @@ namespace DiplomaWinForms
             return new SqlCommand(sqlExpression, conn);
         }
 
-        class Control
+        public static class Control
         {
-            static void Insert(DataTable Table, string Arguments, string Values)
+            public static void Insert(DataTable Table, string Arguments, string Values)
             {
                 OpenConnection();
                 try
                 {
                     Cmd($"INSERT INTO {Table.TableName} ({Arguments}) values ({Values})").ExecuteNonQuery();
+                    RefreshDS();
                 }
                 catch(Exception ex)
                 {
@@ -105,6 +106,7 @@ namespace DiplomaWinForms
                 }
                 CloseConnection();
             }
+
         }
     }
 }

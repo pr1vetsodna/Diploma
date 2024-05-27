@@ -13,16 +13,16 @@ namespace DiplomaWinForms
     public partial class Main : Form
     {
         bool isChangingTable;
-        string currentTable;
-
         public Main()
         {
             InitializeComponent();
         }
 
         static public List<Page> Pages = new List<Page>();
+        public string currentTable;
         public class Page
         {
+            public string Name;
             public List<Row> Rows = new List<Row>();
             public class Row
             {
@@ -62,22 +62,21 @@ namespace DiplomaWinForms
                 string values = null;
                 for (int row = 0; row < Rows.Count; row++)
                 {
-                    if (Rows[row].Controls[1].GetType() == typeof(string))
-                        values += $"`{Rows[row].Controls[1].Text}`";
+                    if (Rows[row].Type == typeof(string))
+                        values += $"'{Rows[row].Controls[1].Text}'";
                     else
                         values += Rows[row].Controls[1].Text;
                     values += ", ";
                 }
-                values.Remove(values.Length - 2);
-                return values;
+                
+                return values.Remove(values.Length - 2);
             }
             public string GetArguments()
             {
                 string arguments = null;
                 for (int row = 0; row < Rows.Count; row++)
                     arguments += Rows[row].Controls[0].Text + ", ";
-                arguments.Remove(arguments.Length - 2);
-                return arguments;
+                return arguments.Remove(arguments.Length - 2);
             }
         }
 
@@ -92,6 +91,7 @@ namespace DiplomaWinForms
             {
                 listBoxTables.Items.Add(table.TableName);
                 Page page = new Page();
+                page.Name = table.TableName;
                 foreach (DataColumn column in DataBase.ds.Tables[table.TableName].Columns)
                 {
                     Page.Row row = new Page.Row()
@@ -128,7 +128,7 @@ namespace DiplomaWinForms
         private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             isChangingTable = true;
-            currentTable = listBoxTables.SelectedItem.ToString();
+            currentTable = Pages[listBoxTables.SelectedIndex].Name;
             tableLayoutPanelArguments.Controls.Clear();
             tableLayoutPanelArguments.RowStyles.Clear();
             tableLayoutPanelArguments.RowCount = 1;
@@ -143,25 +143,7 @@ namespace DiplomaWinForms
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            string query = $"INSERT INTO {currentTable} (";
-            foreach (DataColumn col in DataBase.ds.Tables[currentTable].Columns)
-                query = $"{query}{col.ColumnName}, ";
-            query = query.Remove(query.Length - 2);
-            query += ") values (";
-            foreach (DataColumn column in DataBase.ds.Tables[currentTable].Columns)
-                if (tableLayoutPanelArguments.Controls[column.ColumnName].GetType() != typeof(System.Windows.Forms.Label))
-                {
-                    if (column.DataType == typeof(string))
-                        query += $"'{tableLayoutPanelArguments.Controls[column.ColumnName].Text}', ";
-                    else
-                        query += $"{tableLayoutPanelArguments.Controls[column.ColumnName].Text}, ";
-                }
-            query = query.Remove(query.Length - 2);
-            query += ")";
-            if (msg.Question("Скопировать запрос?", query))
-                Clipboard.SetText(query);
-            RefreshUI();
-
+            DataBase.Control.Insert(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].GetArguments(), Pages[listBoxTables.SelectedIndex].GetValues());
         }
         private void dataGridViewMain_SelectionChanged(object sender, EventArgs e)
         {
