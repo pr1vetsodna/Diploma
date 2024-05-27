@@ -40,7 +40,7 @@ namespace DiplomaWinForms
                     if (Name != null)
                         label.Text = Name;
                     else
-                        label.Text = "null";
+                        label.Text = "НЕИЗВЕСТНО";
                     Control field = new Control();
                     if (Type == typeof(DateTime))
                         field = new DateTimePicker();
