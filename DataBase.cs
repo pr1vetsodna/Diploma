@@ -14,6 +14,7 @@ namespace DiplomaWinForms
         {
             DataSource = ConfigurationManager.AppSettings["ServerName"],
             InitialCatalog = ConfigurationManager.AppSettings["CatalogName"],
+            MultipleActiveResultSets = true,
             IntegratedSecurity = true,
             Encrypt = false,
         };
@@ -54,11 +55,12 @@ namespace DiplomaWinForms
             try
             {
                 SqlDataReader reader = Cmd("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'").ExecuteReader();
-                List<string> tables = new List<string>();
                 while (reader.Read())
-                    tables.Add(reader.GetString(0));
-                foreach (string table in tables)
-                    Adapter($"select * from {table}").Fill(ds, table);
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter($"select * from {reader.GetString(0)}", conn);
+                    adapter.Fill(ds, reader.GetString(0));
+                }
+                reader.Close();
 
             }
             catch (Exception ex)
