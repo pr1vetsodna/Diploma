@@ -138,7 +138,7 @@ namespace DiplomaWinForms
             dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
             isChangingTable = false;
             Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
-                $"Количество полей: {tableLayoutPanelArguments.Controls.Count / 2}");
+                $"Количество полей: {Pages[listBoxTables.SelectedIndex].Rows.Count}");
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
