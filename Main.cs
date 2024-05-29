@@ -152,15 +152,9 @@ namespace DiplomaWinForms
         {
             RefreshUI();
         }
-
-        private void tableLayoutPanelArguments_Paint(object sender, PaintEventArgs e)
+        private void buttonDel_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBoxSearch_Click(object sender, EventArgs e)
-        {
-
+            DataBase.Control.Delete(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].Rows[0].Controls[1].Text);
         }
     }
 }

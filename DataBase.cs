@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Security.Policy;
 
 namespace DiplomaWinForms
 {
@@ -138,7 +139,20 @@ namespace DiplomaWinForms
                 CloseConnection();
                 RefreshDS();
             }
-
+            public static void Delete (DataTable Table, string ID)
+            {
+                OpenConnection();
+                try
+                {
+                    Cmd($"DELETE FROM {Table.TableName} WHERE ID = {ID}").ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    msg.Error("Не удалось удалить строку!\n\n" + ex.Message);
+                }
+                CloseConnection();
+                RefreshDS();
+            }
         }
     }
 }
