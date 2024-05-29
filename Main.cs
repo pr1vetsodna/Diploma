@@ -35,7 +35,7 @@ namespace DiplomaWinForms
                         AutoSize = true,
                         Anchor = AnchorStyles.Right
                     };
-                    if (Name != null)
+                    if (!string.IsNullOrEmpty(Name))
                         label.Text = Name;
                     else
                         label.Text = "НЕИЗВЕСТНО";
@@ -155,6 +155,20 @@ namespace DiplomaWinForms
         private void buttonDel_Click(object sender, EventArgs e)
         {
             DataBase.Control.Delete(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].Rows[0].Controls[1].Text);
+        }
+
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridViewMain.RowCount; i++)
+            {
+                dataGridViewMain.Rows[i].Selected = false;
+                for (int j = 0; j < dataGridViewMain.ColumnCount; j++)
+                {
+                    if (dataGridViewMain.Rows[i].Cells[j].Value != null)
+                        if (dataGridViewMain.Rows[i].Cells[j].Value.ToString().Contains(textBoxSearch.Text))
+                            dataGridViewMain.Rows[i].Selected = true;
+                }
+            }
         }
     }
 }
