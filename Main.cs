@@ -3,12 +3,7 @@ using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using Label = System.Windows.Forms.Label;
-using TextBox = System.Windows.Forms.TextBox;
 
 namespace DiplomaWinForms
 {
@@ -30,6 +25,7 @@ namespace DiplomaWinForms
             {
                 public string Name;
                 public Type Type;
+                public bool IsIdentity;
                 public List<Control> Controls = new List<Control>();
                 public void Add()
                 {
@@ -72,7 +68,7 @@ namespace DiplomaWinForms
                 foreach (Row row in Rows)
                     if (row.Type == typeof(string))
                         values.Add($"'{row.Controls[1].Text}'");
-                else
+                    else
                         values.Add(row.Controls[1].Text);
                 return values;
             }
@@ -90,12 +86,13 @@ namespace DiplomaWinForms
                 listBoxTables.Items.Add(table.TableName);
                 Page page = new Page();
                 page.Name = table.TableName;
-                foreach (DataColumn column in DataBase.ds.Tables[table.TableName].Columns)
+                for (int i = 0; i < DataBase.ds.Tables[table.TableName].Columns.Count; i++)
                 {
                     Page.Row row = new Page.Row()
                     {
-                        Name = column.ColumnName,
-                        Type = column.DataType
+                        Name = DataBase.ds.Tables[table.TableName].Columns[i].ColumnName,
+                        Type = DataBase.ds.Tables[table.TableName].Columns[i].DataType,
+                        IsIdentity = Convert.ToBoolean(DataBase.tablesNames.Tables[table.TableName].Rows[i]["auto_inc"])
                     };
                     row.Add();
                     if (row.Controls.Count > 0)
@@ -147,12 +144,10 @@ namespace DiplomaWinForms
         {
             DataBase.Control.Insert(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].GetArguments(), Pages[listBoxTables.SelectedIndex].GetValues());
         }
-
         private void buttonMod_Click(object sender, EventArgs e)
         {
             DataBase.Control.Update(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].GetArguments(), Pages[listBoxTables.SelectedIndex].GetValues());
         }
-
         private void buttonUpd_Click(object sender, EventArgs e)
         {
             RefreshUI();

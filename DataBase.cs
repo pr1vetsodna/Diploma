@@ -9,7 +9,7 @@ namespace DiplomaWinForms
     public static class DataBase
     {
         public static DataSet ds = new DataSet();
-        public static DataTable tablesNames = new DataTable();
+        public static DataSet tablesNames = new DataSet();
         static SqlConnectionStringBuilder build = new SqlConnectionStringBuilder()
         {
             DataSource = ConfigurationManager.AppSettings["ServerName"],
@@ -32,7 +32,7 @@ namespace DiplomaWinForms
             }
             catch (SqlException ex)
             {
-                msg.Error("Не удалось подключиться к базе данных!\n\n"+ex.ToString());
+                msg.Error("Не удалось подключиться к базе данных!\n\n" + ex.ToString());
             }
         }
         public static void CloseConnection()
@@ -44,28 +44,31 @@ namespace DiplomaWinForms
             }
             catch (SqlException ex)
             {
-                msg.Error("Не удалось закрыть соединение с базой данных!\n\n"+ex.ToString());
+                msg.Error("Не удалось закрыть соединение с базой данных!\n\n" + ex.ToString());
             }
         }
 
         public static void RefreshDS()
         {
             ds.Reset();
+            tablesNames.Reset();
             OpenConnection();
             try
             {
-                SqlDataReader reader = Cmd("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'").ExecuteReader();
-                while (reader.Read())
+                SqlDataReader tableReader = Cmd("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_type = 'BASE TABLE'").ExecuteReader();
+                while (tableReader.Read())
                 {
-                    SqlDataAdapter adapter = new SqlDataAdapter($"select * from {reader.GetString(0)}", conn);
-                    adapter.Fill(ds, reader.GetString(0));
+                    string tableName = tableReader.GetString(0);
+                    SqlDataAdapter adapterTable = new SqlDataAdapter($"SELECT * FROM {tableName}", conn);
+                    SqlDataAdapter adapterColumns = new SqlDataAdapter($"SELECT c.name AS 'column', c.is_identity as auto_inc FROM sys.columns c INNER JOIN sys.tables t ON c.object_id = t.object_id WHERE t.name = '{tableName}'", conn);
+                    adapterColumns.Fill(tablesNames, tableName);
+                    adapterTable.Fill(ds, tableName);
                 }
-                reader.Close();
-
+                tableReader.Close();
             }
             catch (Exception ex)
             {
-                msg.Error("Ошибка при обновлении базы данных!\n\n"+ex.ToString());
+                msg.Error("Ошибка при обновлении базы данных!\n\n" + ex.ToString());
             }
         }
 
@@ -95,10 +98,12 @@ namespace DiplomaWinForms
             public static void Insert(DataTable Table, List<string> Arguments, List<string> Values)
             {
                 string queryArg = null, queryVal = null;
-                foreach (string arg in Arguments)
-                    queryArg += arg + ", ";
-                foreach (string val in Values)
-                    queryVal += val + ", ";
+                for (int i = 0; i < Arguments.Count; i++)
+                    if (!Convert.ToBoolean(tablesNames.Tables[Table.TableName].Rows[i]["auto_inc"]))
+                    {
+                        queryArg += Arguments[i] + ", ";
+                        queryVal += Values[i] + ", ";
+                    }
                 queryArg = queryArg.Remove(queryArg.Length - 2);
                 queryVal = queryVal.Remove(queryVal.Length - 2);
                 OpenConnection();
@@ -106,7 +111,7 @@ namespace DiplomaWinForms
                 {
                     Cmd($"INSERT INTO {Table.TableName} ({queryArg}) values ({queryVal})").ExecuteNonQuery();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     msg.Error("Не удалось добавить данные!\n\n" + ex.Message);
                 }
@@ -117,12 +122,14 @@ namespace DiplomaWinForms
             {
                 string query = null;
                 for (int i = 0; i < Arguments.Count; i++)
-                    query += $"{Arguments[i]} = {Values[i]}, ";
+                    if (!Convert.ToBoolean(tablesNames.Tables[Table.TableName].Rows[i]["auto_inc"]))
+                        query += $"{Arguments[i]} = {Values[i]}, ";
                 query = query.Remove(query.Length - 2);
+                string ID = Values[0];
                 OpenConnection();
                 try
                 {
-                    Cmd($"UPDATE {Table.TableName} SET {query}").ExecuteNonQuery();
+                    Cmd($"UPDATE {Table.TableName} SET {query} WHERE ID = {ID}").ExecuteNonQuery();
                 }
                 catch (Exception ex)
                 {
