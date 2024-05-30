@@ -143,10 +143,12 @@ namespace DiplomaWinForms
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             DataBase.Control.Insert(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].GetArguments(), Pages[listBoxTables.SelectedIndex].GetValues());
+            dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
         }
         private void buttonMod_Click(object sender, EventArgs e)
         {
             DataBase.Control.Update(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].GetArguments(), Pages[listBoxTables.SelectedIndex].GetValues());
+            dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
         }
         private void buttonUpd_Click(object sender, EventArgs e)
         {
@@ -155,6 +157,7 @@ namespace DiplomaWinForms
         private void buttonDel_Click(object sender, EventArgs e)
         {
             DataBase.Control.Delete(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].Rows[0].Controls[1].Text);
+            dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
