@@ -14,7 +14,6 @@ namespace DiplomaWinForms
         {
             InitializeComponent();
         }
-
         static public List<Page> Pages = new List<Page>();
         public string currentTable;
         public class Page
@@ -68,13 +67,12 @@ namespace DiplomaWinForms
                 foreach (Row row in Rows)
                     if (row.Type == typeof(string))
                         values.Add($"'{row.Controls[1].Text}'");
-                    else
-                        values.Add(row.Controls[1].Text);
+                    else if (row.Controls[1] is MetroDateTime)
+                        values.Add($"'{Convert.ToDateTime(row.Controls[1].Text):yyyyMMdd}'");
+                    else values.Add(row.Controls[1].Text);
                 return values;
             }
         }
-
-
         void RefreshUI()
         {
             DataBase.RefreshDS();
@@ -112,7 +110,6 @@ namespace DiplomaWinForms
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;
         }
-
         private void Main_Load(object sender, EventArgs e)
         {
             RefreshUI();
@@ -124,7 +121,6 @@ namespace DiplomaWinForms
                     if (dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value != DBNull.Value)
                         tableLayoutPanelArguments.Controls["control" + col.ColumnName].Text = dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value.ToString();
         }
-
         private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
         {
             isChangingTable = true;
@@ -159,7 +155,6 @@ namespace DiplomaWinForms
             DataBase.Control.Delete(DataBase.ds.Tables[currentTable], Pages[listBoxTables.SelectedIndex].Rows[0].Controls[1].Text);
             dataGridViewMain.DataSource = DataBase.ds.Tables[currentTable];
         }
-
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < dataGridViewMain.RowCount; i++)
