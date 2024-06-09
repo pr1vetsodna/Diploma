@@ -101,6 +101,9 @@ namespace DiplomaWinForms
                     case "userlist":
                         listBoxTables.Items.Add("Смены_пользователи");
                         break;
+                    case "ordersattempt":
+                        listBoxTables.Items.Add("Принятые заказы");
+                        break;
                     default:
                         listBoxTables.Items.Add(table.TableName);
                         break;
