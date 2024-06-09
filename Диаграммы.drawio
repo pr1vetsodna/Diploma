@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-06-09T18:29:26.046Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="KF19O_yHuVgzcjJUcYzt" version="24.5.2" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2024-06-09T18:49:39.663Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="zLWblPDSb9YF21qLjA8M" version="24.5.2" type="github" pages="4">
   <diagram name="IDEF0" id="WaiAb4IPIYskx_XYd0FX">
     <mxGraphModel dx="1705" dy="2065" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -354,6 +354,140 @@
         </mxCell>
         <mxCell id="58iUULdm8Y5gmFLBD-RY-44" value="Клиент" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;" vertex="1" parent="1">
           <mxGeometry x="-70" y="330" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ZbG4UZhYz0PG29XfxA33" name="Диаграмма конечных автоматов">
+    <mxGraphModel dx="709" dy="1136" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="albTiGgiswSC2hbL32xr-11" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-1" target="albTiGgiswSC2hbL32xr-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-1" value="Начало" style="verticalLabelPosition=top;verticalAlign=bottom;html=1;shape=mxgraph.flowchart.on-page_reference;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;fillStyle=auto;fillColor=#000000;labelPosition=center;align=center;" vertex="1" parent="1">
+          <mxGeometry x="450" y="290" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-9" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-4" target="albTiGgiswSC2hbL32xr-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-4" value="Окно авторизации" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="405" y="350" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-8" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-6" target="albTiGgiswSC2hbL32xr-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-15" value="Да" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-8">
+          <mxGeometry x="-0.0361" y="1" width="40" height="30" relative="1" as="geometry">
+            <mxPoint x="-20" y="-17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-6" value="Переводчик&lt;div&gt;успешно&lt;/div&gt;&lt;div&gt;авторизовался&amp;nbsp;&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;rounded=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="387.72" y="406.5" width="154.57" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-17" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-7" target="albTiGgiswSC2hbL32xr-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-7" value="Открытие формы&lt;div&gt;&quot;Переводчик&quot;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="432.5" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-19" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-16" target="albTiGgiswSC2hbL32xr-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-26" value="Получен&lt;div&gt;новый&lt;/div&gt;&lt;div&gt;заказ&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-19">
+          <mxGeometry x="-0.3773" y="-1" width="70" height="50" relative="1" as="geometry">
+            <mxPoint x="-34" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-16" value="Ожидание&lt;div&gt;заказа&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;rounded=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="227.36" y="498.5" width="115.28" height="71" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-21" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-18" target="albTiGgiswSC2hbL32xr-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-23" value="Назначен&lt;div&gt;переводчик&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-21">
+          <mxGeometry x="-0.1041" width="80" height="40" relative="1" as="geometry">
+            <mxPoint x="-40" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-18" value="Заказ принят" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="650" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-27" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-20" target="albTiGgiswSC2hbL32xr-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-28" value="Перевод завершён&lt;div&gt;переводчиком&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-27">
+          <mxGeometry x="-0.3827" y="2" width="120" height="40" relative="1" as="geometry">
+            <mxPoint x="-63" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-20" value="Выполнение&lt;div&gt;&amp;nbsp;перевода&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;rounded=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="421.29" y="627.75" width="121" height="74.5" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-31" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-22" target="albTiGgiswSC2hbL32xr-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-32" value="Перевод&lt;div&gt;отправлен&lt;/div&gt;&lt;div&gt;заказчику&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-31">
+          <mxGeometry x="0.3944" y="-1" width="80" height="50" relative="1" as="geometry">
+            <mxPoint x="-22" y="-24" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-22" value="Перевод выполнен" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="422.29" y="752.38" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-34" value="" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-30" target="albTiGgiswSC2hbL32xr-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-35" value="Получена&lt;div&gt;оплата&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-34">
+          <mxGeometry x="-0.2106" y="-2" width="70" height="40" relative="1" as="geometry">
+            <mxPoint x="-39" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-38" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-30" target="albTiGgiswSC2hbL32xr-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-39" value="Заказчик&lt;div&gt;отказался&lt;/div&gt;&lt;div&gt;от заказа&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-38">
+          <mxGeometry x="0.0524" y="1" width="70" height="50" relative="1" as="geometry">
+            <mxPoint x="-35" y="-25" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-30" value="Ожидание&lt;div&gt;оплаты&lt;/div&gt;" style="rhombus;whiteSpace=wrap;html=1;rounded=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=default;" vertex="1" parent="1">
+          <mxGeometry x="230.24999999999997" y="740" width="109.5" height="54.75" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-33" target="albTiGgiswSC2hbL32xr-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="225" y="930" />
+              <mxPoint x="150" y="930" />
+              <mxPoint x="150" y="516" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-43" value="Отметка&lt;div&gt;&quot;Выполнен&quot;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-40">
+          <mxGeometry x="-0.7276" width="80" height="40" relative="1" as="geometry">
+            <mxPoint x="-29" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-33" value="Оплата&lt;div&gt;произведена&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="850" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;endArrow=classic;" edge="1" parent="1" source="albTiGgiswSC2hbL32xr-36" target="albTiGgiswSC2hbL32xr-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="353" y="910" />
+              <mxPoint x="170" y="910" />
+              <mxPoint x="170" y="552" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-42" value="Отметка &quot;Отменён&quot;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];rounded=0;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;fillColor=none;gradientColor=none;" vertex="1" connectable="0" parent="albTiGgiswSC2hbL32xr-41">
+          <mxGeometry x="-0.7565" y="-2" width="120" height="30" relative="1" as="geometry">
+            <mxPoint x="-60" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="albTiGgiswSC2hbL32xr-36" value="Заказ&lt;div&gt;отменён&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="317.72" y="850" width="70" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
