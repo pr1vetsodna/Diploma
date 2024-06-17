@@ -7,10 +7,10 @@ using System.Windows.Forms;
 
 namespace DiplomaWinForms
 {
-    public partial class Main : MetroForm
+    public partial class FormAdmin : MetroForm
     {
         bool isChangingTable;
-        public Main()
+        public FormAdmin()
         {
             InitializeComponent();
         }
@@ -81,7 +81,33 @@ namespace DiplomaWinForms
             int maxWidthLabel = 0, maxWidthField = 0, maxMarginField = 0;
             foreach (DataTable table in DataBase.ds.Tables)
             {
-                listBoxTables.Items.Add(table.TableName);
+                switch (table.TableName)
+                {
+                    case "orders":
+                        listBoxTables.Items.Add("Заказы");
+                        break;
+                    case "shift":
+                        listBoxTables.Items.Add("Смены");
+                        break;
+                    case "userrole":
+                        listBoxTables.Items.Add("Роли");
+                        break;
+                    case "users":
+                        listBoxTables.Items.Add("Пользователи");
+                        break;
+                    case "orderuserlist":
+                        listBoxTables.Items.Add("Заказы_пользователи");
+                        break;
+                    case "userlist":
+                        listBoxTables.Items.Add("Смены_пользователи");
+                        break;
+                    case "ordersattempt":
+                        listBoxTables.Items.Add("Принятые заказы");
+                        break;
+                    default:
+                        listBoxTables.Items.Add(table.TableName);
+                        break;
+                }
                 Page page = new Page();
                 page.Name = table.TableName;
                 for (int i = 0; i < DataBase.ds.Tables[table.TableName].Columns.Count; i++)

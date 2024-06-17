@@ -66,6 +66,18 @@ namespace DiplomaWinForms
                     adapterTable.Fill(ds, tableName);
                 }
                 tableReader.Close();
+                Adapter("select * from orders where paymentstatus = 'Принят'").Fill(ds, "ordersattempt");
+                tablesNames.Tables.Add("ordersattempt");
+                tablesNames.Tables["ordersattempt"].Columns.Add("column");
+                tablesNames.Tables["ordersattempt"].Columns.Add("auto_inc");
+                foreach (DataColumn column in ds.Tables["ordersattempt"].Columns)
+                {
+                    if (column.ColumnName == "orderid")
+                        tablesNames.Tables["ordersattempt"].Rows.Add(column.ColumnName, "True");
+                    else
+                        tablesNames.Tables["ordersattempt"].Rows.Add(column.ColumnName, "False");
+
+                }
             }
             catch (Exception ex)
             {
