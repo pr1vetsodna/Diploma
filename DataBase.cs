@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace DiplomaWinForms
 {
@@ -101,6 +103,15 @@ namespace DiplomaWinForms
         public static SqlCommand Cmd(string sqlExpression)
         {
             return new SqlCommand(sqlExpression, conn);
+        }
+        public static void openAuth()
+        {
+            var frm = Application.OpenForms.Cast<Form>().Where(x => x.Name == "FormAuth").FirstOrDefault();
+            if (null != frm)
+            {
+                frm.Show();
+                frm = null;
+            }
         }
 
         public static class Control

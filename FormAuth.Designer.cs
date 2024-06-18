@@ -174,6 +174,7 @@ namespace DiplomaWinForms
             this.Controls.Add(this.tableLayoutPanel2);
             this.Name = "FormAuth";
             this.Text = "Авторизация";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormAuth_FormClosed);
             this.Load += new System.EventHandler(this.FormAuth_Load);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();

@@ -3,6 +3,7 @@ using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace DiplomaWinForms
@@ -209,8 +210,7 @@ namespace DiplomaWinForms
 
         private void FormAdmin_FormClosed(object sender, FormClosedEventArgs e)
         {
-            FormAuth formAuth = new FormAuth();
-            formAuth.ShowDialog();
+            DataBase.openAuth();
         }
     }
 }

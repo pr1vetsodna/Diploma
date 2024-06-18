@@ -1,6 +1,7 @@
 ﻿using MetroFramework.Forms;
 using System;
 using System.Data;
+using System.Windows.Forms;
 
 namespace DiplomaWinForms
 {
@@ -43,6 +44,8 @@ namespace DiplomaWinForms
                         break;
                 }
             }
+            textBoxLogin.Clear();
+            textBoxPassword.Clear();
         }
 
         private void checkBoxShowPass_CheckedChanged(object sender, EventArgs e)
@@ -52,6 +55,11 @@ namespace DiplomaWinForms
                 textBoxPassword.PasswordChar = '●';
             else
                 textBoxPassword.PasswordChar = '\0';
+        }
+
+        private void FormAuth_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
