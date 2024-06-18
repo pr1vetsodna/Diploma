@@ -153,6 +153,7 @@ namespace DiplomaWinForms
             this.checkBoxShowPass.TabIndex = 4;
             this.checkBoxShowPass.Text = "Показать пароль";
             this.checkBoxShowPass.UseSelectable = true;
+            this.checkBoxShowPass.CheckedChanged += new System.EventHandler(this.checkBoxShowPass_CheckedChanged);
             // 
             // buttonAuth
             // 

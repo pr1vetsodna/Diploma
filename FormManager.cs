@@ -2,6 +2,7 @@
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace DiplomaWinForms
@@ -74,45 +75,64 @@ namespace DiplomaWinForms
             listBoxTables.Items.Clear();
             Pages.Clear();
             int maxWidthLabel = 0, maxWidthField = 0, maxMarginField = 0;
-            listBoxTables.Items.Add("Принятые заказы");
-            Page page = new Page();
-            page.Name = "ordersattempt";
-            for (int i = 0; i < DataBase.ds.Tables["ordersattempt"].Columns.Count; i++)
+            foreach (DataTable table in DataBase.ds.Tables)
             {
-                Page.Row row = new Page.Row()
+                switch (table.TableName)
                 {
-                    Name = DataBase.ds.Tables["ordersattempt"].Columns[i].ColumnName,
-                    Type = DataBase.ds.Tables["ordersattempt"].Columns[i].DataType,
-                    IsIdentity = Convert.ToBoolean(DataBase.tablesNames.Tables["ordersattempt"].Rows[i]["auto_inc"])
-                };
-                row.Add();
-                if (row.Controls.Count > 0)
-                {
-                    if (row.Controls[0].Width > maxWidthLabel)
-                        maxWidthLabel = row.Controls[0].Width;
-                    if (row.Controls[1].Width > maxWidthField)
-                        maxWidthField = row.Controls[1].Width;
-                    if (row.Controls[1].Margin.All > maxMarginField)
-                        maxMarginField = row.Controls[1].Margin.All;
+                    case "orders":
+                        listBoxTables.Items.Add("Заказы");
+                        break;
+                    case "shift":
+                        listBoxTables.Items.Add("Смены");
+                        break;
+                    case "userrole":
+                        listBoxTables.Items.Add("Роли");
+                        break;
+                    case "users":
+                        listBoxTables.Items.Add("Пользователи");
+                        break;
+                    case "orderuserlist":
+                        listBoxTables.Items.Add("Заказы_пользователи");
+                        break;
+                    case "userlist":
+                        listBoxTables.Items.Add("Смены_пользователи");
+                        break;
+                    case "ordersattempt":
+                        listBoxTables.Items.Add("Принятые заказы");
+                        break;
+                    default:
+                        listBoxTables.Items.Add(table.TableName);
+                        break;
                 }
-                page.Rows.Add(row);
+                Page page = new Page();
+                page.Name = table.TableName;
+                for (int i = 0; i < DataBase.ds.Tables[table.TableName].Columns.Count; i++)
+                {
+                    Page.Row row = new Page.Row()
+                    {
+                        Name = DataBase.ds.Tables[table.TableName].Columns[i].ColumnName,
+                        Type = DataBase.ds.Tables[table.TableName].Columns[i].DataType,
+                        IsIdentity = Convert.ToBoolean(DataBase.tablesNames.Tables[table.TableName].Rows[i]["auto_inc"])
+                    };
+                    row.Add();
+                    if (row.Controls.Count > 0)
+                    {
+                        if (row.Controls[0].Width > maxWidthLabel)
+                            maxWidthLabel = row.Controls[0].Width;
+                        if (row.Controls[1].Width > maxWidthField)
+                            maxWidthField = row.Controls[1].Width;
+                        if (row.Controls[1].Margin.All > maxMarginField)
+                            maxMarginField = row.Controls[1].Margin.All;
+                    }
+                    page.Rows.Add(row);
+                }
+                Pages.Add(page);
             }
-            Pages.Add(page);
             TableLayoutPanelLeft.Width = maxWidthField + maxWidthLabel + maxMarginField;
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;
         }
-        public FormManager()
-        {
-            InitializeComponent();
-        }
-
-        private void FormManager_Load(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
-
-        private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
+        void ChangeTable()
         {
             isChangingTable = true;
             currentTable = Pages[listBoxTables.SelectedIndex].Name;
@@ -126,6 +146,52 @@ namespace DiplomaWinForms
             isChangingTable = false;
             Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
                 $"Количество полей: {Pages[listBoxTables.SelectedIndex].Rows.Count}");
+        }
+        void FillFields()
+        {
+            if (!isChangingTable && dataGridViewMain.CurrentRow != null)
+                foreach (DataColumn col in DataBase.ds.Tables[currentTable].Columns)
+                    if (dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value != DBNull.Value)
+                        tableLayoutPanelArguments.Controls["control" + col.ColumnName].Text = dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value.ToString();
+        }
+        void SearchButton()
+        {
+            for (int i = 0; i < dataGridViewMain.RowCount; i++)
+            {
+                dataGridViewMain.Rows[i].Selected = false;
+                for (int j = 0; j < dataGridViewMain.ColumnCount; j++)
+                {
+                    if (dataGridViewMain.Rows[i].Cells[j].Value != null)
+                        if (dataGridViewMain.Rows[i].Cells[j].Value.ToString().Contains(textBoxSearch.Text))
+                            dataGridViewMain.Rows[i].Selected = true;
+                }
+            }
+        }
+        public FormManager()
+        {
+            InitializeComponent();
+        }
+
+        private void FormManager_Load(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+
+        private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChangeTable();
+        }
+        private void dataGridViewMain_SelectionChanged(object sender, EventArgs e)
+        {
+            FillFields();
+        }
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            SearchButton();
+        }
+        private void buttonUpd_Click(object sender, EventArgs e)
+        {
+            RefreshUI();
         }
     }
 }
