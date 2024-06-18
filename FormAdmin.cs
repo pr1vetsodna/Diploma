@@ -136,18 +136,7 @@ namespace DiplomaWinForms
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;
         }
-        private void Main_Load(object sender, EventArgs e)
-        {
-            RefreshUI();
-        }
-        private void dataGridViewMain_SelectionChanged(object sender, EventArgs e)
-        {
-            if (!isChangingTable && dataGridViewMain.CurrentRow != null)
-                foreach (DataColumn col in DataBase.ds.Tables[currentTable].Columns)
-                    if (dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value != DBNull.Value)
-                        tableLayoutPanelArguments.Controls["control" + col.ColumnName].Text = dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value.ToString();
-        }
-        private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
+        void ChangeTable()
         {
             isChangingTable = true;
             currentTable = Pages[listBoxTables.SelectedIndex].Name;
@@ -161,6 +150,38 @@ namespace DiplomaWinForms
             isChangingTable = false;
             Console.WriteLine($"Строк в панели: {tableLayoutPanelArguments.RowCount}\n" +
                 $"Количество полей: {Pages[listBoxTables.SelectedIndex].Rows.Count}");
+        }
+        void FillFields()
+        {
+            if (!isChangingTable && dataGridViewMain.CurrentRow != null)
+                foreach (DataColumn col in DataBase.ds.Tables[currentTable].Columns)
+                    if (dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value != DBNull.Value)
+                        tableLayoutPanelArguments.Controls["control" + col.ColumnName].Text = dataGridViewMain.CurrentRow.Cells[col.ColumnName].Value.ToString();
+        }
+        void SearchButton()
+        {
+            for (int i = 0; i < dataGridViewMain.RowCount; i++)
+            {
+                dataGridViewMain.Rows[i].Selected = false;
+                for (int j = 0; j < dataGridViewMain.ColumnCount; j++)
+                {
+                    if (dataGridViewMain.Rows[i].Cells[j].Value != null)
+                        if (dataGridViewMain.Rows[i].Cells[j].Value.ToString().Contains(textBoxSearch.Text))
+                            dataGridViewMain.Rows[i].Selected = true;
+                }
+            }
+        }
+        private void Main_Load(object sender, EventArgs e)
+        {
+            RefreshUI();
+        }
+        private void dataGridViewMain_SelectionChanged(object sender, EventArgs e)
+        {
+            FillFields();
+        }
+        private void listBoxTables_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ChangeTable();
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -183,16 +204,7 @@ namespace DiplomaWinForms
         }
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < dataGridViewMain.RowCount; i++)
-            {
-                dataGridViewMain.Rows[i].Selected = false;
-                for (int j = 0; j < dataGridViewMain.ColumnCount; j++)
-                {
-                    if (dataGridViewMain.Rows[i].Cells[j].Value != null)
-                        if (dataGridViewMain.Rows[i].Cells[j].Value.ToString().Contains(textBoxSearch.Text))
-                            dataGridViewMain.Rows[i].Selected = true;
-                }
-            }
+            SearchButton();
         }
     }
 }

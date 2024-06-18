@@ -2,12 +2,6 @@
 using MetroFramework.Forms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DiplomaWinForms
@@ -80,30 +74,30 @@ namespace DiplomaWinForms
             listBoxTables.Items.Clear();
             Pages.Clear();
             int maxWidthLabel = 0, maxWidthField = 0, maxMarginField = 0;
-                listBoxTables.Items.Add("Принятые заказы");
-                Page page = new Page();
-                page.Name = "ordersattempt";
-                for (int i = 0; i < DataBase.ds.Tables["ordersattempt"].Columns.Count; i++)
+            listBoxTables.Items.Add("Принятые заказы");
+            Page page = new Page();
+            page.Name = "ordersattempt";
+            for (int i = 0; i < DataBase.ds.Tables["ordersattempt"].Columns.Count; i++)
+            {
+                Page.Row row = new Page.Row()
                 {
-                    Page.Row row = new Page.Row()
-                    {
-                        Name = DataBase.ds.Tables["ordersattempt"].Columns[i].ColumnName,
-                        Type = DataBase.ds.Tables["ordersattempt"].Columns[i].DataType,
-                        IsIdentity = Convert.ToBoolean(DataBase.tablesNames.Tables["ordersattempt"].Rows[i]["auto_inc"])
-                    };
-                    row.Add();
-                    if (row.Controls.Count > 0)
-                    {
-                        if (row.Controls[0].Width > maxWidthLabel)
-                            maxWidthLabel = row.Controls[0].Width;
-                        if (row.Controls[1].Width > maxWidthField)
-                            maxWidthField = row.Controls[1].Width;
-                        if (row.Controls[1].Margin.All > maxMarginField)
-                            maxMarginField = row.Controls[1].Margin.All;
-                    }
-                    page.Rows.Add(row);
+                    Name = DataBase.ds.Tables["ordersattempt"].Columns[i].ColumnName,
+                    Type = DataBase.ds.Tables["ordersattempt"].Columns[i].DataType,
+                    IsIdentity = Convert.ToBoolean(DataBase.tablesNames.Tables["ordersattempt"].Rows[i]["auto_inc"])
+                };
+                row.Add();
+                if (row.Controls.Count > 0)
+                {
+                    if (row.Controls[0].Width > maxWidthLabel)
+                        maxWidthLabel = row.Controls[0].Width;
+                    if (row.Controls[1].Width > maxWidthField)
+                        maxWidthField = row.Controls[1].Width;
+                    if (row.Controls[1].Margin.All > maxMarginField)
+                        maxMarginField = row.Controls[1].Margin.All;
                 }
-                Pages.Add(page);
+                page.Rows.Add(row);
+            }
+            Pages.Add(page);
             TableLayoutPanelLeft.Width = maxWidthField + maxWidthLabel + maxMarginField;
             if (listBoxTables.Items.Count > 0)
                 listBoxTables.SelectedIndex = 0;

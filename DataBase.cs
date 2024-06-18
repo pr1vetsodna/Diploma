@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Security.Policy;
 
 namespace DiplomaWinForms
 {
@@ -48,7 +47,6 @@ namespace DiplomaWinForms
                 msg.Error("Не удалось закрыть соединение с базой данных!\n\n" + ex.ToString());
             }
         }
-
         public static void RefreshDS()
         {
             ds.Reset();
@@ -76,7 +74,6 @@ namespace DiplomaWinForms
                         tablesNames.Tables["ordersattempt"].Rows.Add(column.ColumnName, "True");
                     else
                         tablesNames.Tables["ordersattempt"].Rows.Add(column.ColumnName, "False");
-
                 }
             }
             catch (Exception ex)
@@ -151,7 +148,7 @@ namespace DiplomaWinForms
                 CloseConnection();
                 RefreshDS();
             }
-            public static void Delete (DataTable Table, string ID)
+            public static void Delete(DataTable Table, string ID)
             {
                 OpenConnection();
                 try

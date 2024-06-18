@@ -13,7 +13,7 @@ namespace DiplomaWinForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormManager());
+            Application.Run(new FormAuth());
         }
     }
 }
