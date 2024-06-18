@@ -164,5 +164,11 @@ namespace DiplomaWinForms
         {
             RefreshUI();
         }
+
+        private void FormManager_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormAuth formAuth = new FormAuth();
+            formAuth.ShowDialog();
+        }
     }
 }

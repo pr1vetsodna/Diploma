@@ -313,6 +313,7 @@
             this.Controls.Add(this.TableLayoutPanelLeft);
             this.Name = "FormAdmin";
             this.Text = "Администратор";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormAdmin_FormClosed);
             this.Load += new System.EventHandler(this.Main_Load);
             this.tableLayoutPanelControl.ResumeLayout(false);
             this.TableLayoutPanelLeft.ResumeLayout(false);

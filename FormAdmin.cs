@@ -206,5 +206,11 @@ namespace DiplomaWinForms
         {
             SearchButton();
         }
+
+        private void FormAdmin_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            FormAuth formAuth = new FormAuth();
+            formAuth.ShowDialog();
+        }
     }
 }
